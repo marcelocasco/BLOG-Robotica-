@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVENTOS | INICIO</title>
+</head>
+<body>
+    <hr>
+    <h1>TODOS LOS EVENTOS</h1>
+    <hr>
+    <br>
+    <br>
+    
+    {% for categoria in categorias %}
+        <a href="?categoria={{categoria.nombre}}">{{categoria.nombre}}</a>
+    {% endfor %}
+
+    <br>
+    <br>
+
+    {% for evento in eventos %}
+        <hr>
+        <h2>{{evento.nombre}}</h2>
+        <p><strong>{{evento.inicio}}</strong> | Organizador por: {{evento.organizador.nombre}}</p>
+
+        <a href="/eventos/{{evento.evento_id}}">VER MÁS</a>
+    {% endfor %}
+</body>
+</html>

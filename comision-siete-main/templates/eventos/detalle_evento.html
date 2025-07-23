@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVENTOS | DETALLE</title>
+</head>
+<body>
+    <hr>
+    <h1>EVENTO</h1>
+    <hr>
+    <br><br><br><br>
+
+    <div>
+        {% if detalle.imagen %}
+            <img src="{{detalle.imagen.url}}" alt="{{detalle.nombre}}">
+        {% else %}
+            <p>No hay imagen disponible</p>
+        {% endif %}
+    </div>
+    <div>
+        <small>Categorias: {{detalle.categorias.all|join:' '}}</small>
+        <h2>{{detalle.nombre}}</h2>
+        <p><strong>{{detalle.inicio}}</strong> | Organizado por: {{detalle.organizador.nombre}}</p>
+        <p>{{detalle.descripcion}}</p>
+        <p>Finalizaria el día {{detalle.fin|date:"l d F"}} a las {{detalle.fin|date:"H:i"}}</p>
+    </div>
+    
+</body>
+</html>

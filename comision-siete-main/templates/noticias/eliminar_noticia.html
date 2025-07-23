@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOTICIAS | ELIMINAR</title>
+</head>
+<body>
+    <h1>¿Estás seguro de que queres eliminar esta noticia?</h1>
+    <hr>
+    <p>ID: <small>{{noticia.noticia_id}}</small></p>
+    <p>TITULO: <small>{{noticia.titulo}}</small></p>
+    <p>SUBTITULO: <small>{{noticia.subtitulo}}</small></p>
+    <p>CONTENIDO: <small>{{noticia.contenido}}</small></p>
+    <hr>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Sí, eliminar</button>
+    </form>
+</body>
+</html>

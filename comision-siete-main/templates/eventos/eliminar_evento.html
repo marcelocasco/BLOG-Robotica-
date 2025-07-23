@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVENTOS | ELIMINAR</title>
+</head>
+<body>
+    <h1>¿Estás seguro que deseas eliminar el evento?</h1>
+    <hr>
+    <p><strong>Nombre: </strong><small>{{evento.nombre}}</small></p>
+    <p><strong>Descripcion: </strong><small>{{evento.descripcion}}</small></p>
+    <p><strong>Organizador: </strong><small>{{evento.organizador.nombre}}</small></p>
+    <hr>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Eliminar</button>
+    </form>
+</body>
+</html>
