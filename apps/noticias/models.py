@@ -21,7 +21,7 @@ class Noticia(models.Model):
     titulo = models.CharField(max_length=85)
     subtitulo = models.CharField(max_length=150)
     contenido = models.TextField()
-    fecha = models.DateField(auto_now_add=True)
+    fecha = models.DateField(auto_now_add=True)#agrega la fecha automaticamente
     categorias = models.ManyToManyField(Categoria) #Relacion n:m (muchos a muchos)
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE) #Relación 1:n (uno a muchos)
 
