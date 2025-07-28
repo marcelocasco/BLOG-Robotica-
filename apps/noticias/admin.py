@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Noticia, Categoria, Autor
+from .models import Noticia, Categoria, Autor, Comentario, Persona
 
 class NoticiaAdmin(admin.ModelAdmin):
     fields = ('titulo', 'subtitulo', 'contenido', 'autor', 'categorias')
@@ -14,3 +14,6 @@ class NoticiaAdmin(admin.ModelAdmin):
 admin.site.register(Noticia, NoticiaAdmin)
 admin.site.register(Categoria)
 admin.site.register(Autor)
+admin.site.register(Comentario)
+admin.site.register(Persona)
+

@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import timedelta
 
 class Categoria(models.Model):
     categoria_id = models.AutoField(primary_key=True)
@@ -27,11 +28,7 @@ class Noticia(models.Model):
 
     def __str__(self):
         return self.titulo  
-
-# class Persona(models.Model):
-#     id_persona = models.AutoField(primary_key=True)
-#     nombre = models.CharField(max_length=100)
-#     apellido = models.CharField(max_length=100)
+    
 
 # class Perfil(models.Model):
 #     id_perfil = models.AutoField(primary_key=True)

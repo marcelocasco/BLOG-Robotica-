@@ -28,10 +28,23 @@ class Noticia(models.Model):
     def __str__(self):
         return self.titulo  
 
-# class Persona(models.Model):
-#     id_persona = models.AutoField(primary_key=True)
-#     nombre = models.CharField(max_length=100)
-#     apellido = models.CharField(max_length=100)
+class Persona(models.Model):
+    id_persona = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.nombre} {self.apellido}"
+
+
+class Comentario(models.Model):
+    usuario = models.ForeignKey(Persona, on_delete=models.CASCADE)
+    texto = models.TextField()
+    fecha = models.DateTimeField(auto_now_add=True)
+    noticia = models.ForeignKey(Noticia,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Comentario de {self.usuario.nombre} {self.usuario.apellido}"
 
 # class Perfil(models.Model):
 #     id_perfil = models.AutoField(primary_key=True)
