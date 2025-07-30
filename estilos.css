@@ -1,0 +1,152 @@
+/* RESETS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0b0b0b;
+  color: white;
+  line-height: 1.6;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 60px;
+  align-items: center;
+  background: transparent;
+}
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+.buttons .btn {
+  background-color: white;
+  color: black;
+  padding: 8px 18px;
+  border-radius: 20px;
+  text-decoration: none;
+  margin-left: 10px;
+}
+.btn.outline {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+/* SECCIÓN */
+.main {
+  display: flex;
+  padding: 60px;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+}
+.robot-png img {
+  max-width: 450px;
+  border-radius: 20px;
+}
+.forms {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 40px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+}
+.forms h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+form input {
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffff15;
+  color: white;
+}
+.recuperar {
+  font-size: 12px;
+  display: block;
+  margin-bottom: 15px;
+  text-align: right;
+  color: #ccc;
+  text-decoration: none;
+}
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+.or {
+  text-align: center;
+  margin: 20px 0 10px;
+}
+.redes-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.social {
+  background-color: white;
+  color: black;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+}
+.register-msg {
+  font-size: 14px;
+  text-align: center;
+}
+.register-msg a {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* SECCIÓN DE NOTICIAS */
+.noticias {
+  padding: 60px;
+  background: #111;
+}
+.noticias h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.noticias-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+.noticias-card {
+  background-color: #222;
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+  color: #eee;
+}
+.noticias-card h3 {
+  margin-bottom: 10px;
+}
