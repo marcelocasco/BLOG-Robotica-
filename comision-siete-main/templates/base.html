@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Título por defecto{% endblock %}</title>
+
+    <!-- Enlace a Bootstrap 5 CSS desde CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Enlace a Tailwind CSS para utilidades adicionales -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Estilos personalizados, si los necesitas -->
+    {% comment %} <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endcomment %}
+
+    <!-- Bloque para estilos adicionales, específico de cada página -->
+    {% block extra_css %}{% endblock %}
+
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <!-- Barra de Navegación (Navbar) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Mi Blog</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inicio' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'noticias:lista_noticias' %}">Noticias</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'eventos:lista_eventos' %}">Eventos</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Hola, {{ user.username }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Cerrar Sesión</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Iniciar Sesión</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Registrarse</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="flex-grow-1 container mt-4">
+        {% block content %}
+            <!-- El contenido de las plantillas hijas irá aquí -->
+        {% endblock %}
+    </main>
+
+    <!-- Pie de página (Footer) -->
+    <footer class="bg-dark text-white text-center p-4 mt-auto">
+        <p>&copy; 2024 Mi Blog. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Scripts de Bootstrap 5 y dependencias -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Bloque para scripts adicionales, específico de cada página -->
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

@@ -1,8 +1,16 @@
-# Solicitud HTTP
-# Solicitudes entrantes -> request
-# Devolver respuestas -> response
+# comsiete/views.py
 from django.shortcuts import render
+from apps.noticias.models import Noticia  # Importa el modelo de noticias
 
-# Devolver la página principal de mi sitio.
+
 def inicio(request):
-    return render(request, 'index.html')
+    """
+    Vista de la página de inicio.
+    Muestra las últimas 5 noticias para hacer la página más dinámica.
+    """
+    ultimas_noticias = Noticia.objects.all().order_by('-fecha')[:5]
+
+    context = {
+        'ultimas_noticias': ultimas_noticias
+    }
+    return render(request, 'index.html', context)

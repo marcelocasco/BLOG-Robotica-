@@ -1,12 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAGINA PRINCIPAL</title>
-</head>
-<body>
-    <h1>PÁGINA DE INICIO</h1>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi animi aliquam maxime libero culpa minus fugiat consequatur voluptatibus amet magni, adipisci dignissimos ducimus dicta itaque illum ipsum aliquid voluptate atque.</p>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Página Principal{% endblock %}
+
+{% block content %}
+    <h1 class="text-4xl font-bold text-center my-8">PÁGINA DE INICIO</h1>
+
+    <!-- Sección de Últimas Noticias -->
+    <section class="container mx-auto px-4 py-8">
+        <h2 class="text-3xl font-semibold mb-6 text-center">Últimas Noticias</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% if ultimas_noticias %}
+                {% for noticia in ultimas_noticias %}
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105">
+                        {% if noticia.imagen %}
+                            <img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" class="w-full h-48 object-cover">
+                        {% endif %}
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">{{ noticia.titulo }}</h3>
+                            <p class="text-gray-600 text-sm mb-4">{{ noticia.subtitulo|truncatechars:100 }}</p>
+                            <a href="{% url 'noticias:detalle_noticia' noticia.pk %}" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors duration-300">Leer más</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="col-span-3 text-center text-gray-500">No hay noticias disponibles en este momento.</p>
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}

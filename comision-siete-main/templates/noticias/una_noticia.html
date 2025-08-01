@@ -1,20 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOTICIAS | DETALLE</title>
-</head>
-<body>
-    <h1>DETALLE DE LA NOTICIA</h1>
+{% extends "base.html" %}
 
-    <hr>
-    <br>
-    <h3>{{noticia.titulo}}</h3>
-    <p><small>autor: {{noticia.autor.nombre}} | {{noticia.fecha}}</small></p>
-    <p><strong>{{noticia.subtitulo}}</strong></p>
-    <p>{{noticia.contenido}}</p>
-    <hr>
-    <br>
-</body>
-</html>
+{% block title %}Detalle de Noticia{% endblock %}
+
+{% block content %}
+    <div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <h1 style="font-size: 2.5rem; color: #333; margin-bottom: 0.5rem;">{{ noticia.titulo }}</h1>
+        <h2 style="font-size: 1.5rem; color: #666; margin-top: 0;">{{ noticia.subtitulo }}</h2>
+
+        <p style="font-size: 0.9rem; color: #999; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+            <strong>Autor:</strong> {{ noticia.autor.username }} |
+            <strong>Publicado:</strong> {{ noticia.fecha_publicacion|date:"d F, Y" }}
+        </p>
+
+        {% if noticia.imagen %}
+            <img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 20px;">
+        {% endif %}
+
+        <div style="line-height: 1.6; color: #444;">
+            <p>{{ noticia.contenido|linebreaks }}</p>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="{% url 'noticias:lista_noticias' %}" style="text-decoration: none; padding: 10px 20px; background-color: #007bff; color: white; border-radius: 5px;">Volver a la lista</a>
+
+            {% if request.user == noticia.autor or request.user.is_superuser %}
+                <a href="{% url 'noticias:actualizar_noticia' noticia.pk %}" style="text-decoration: none; padding: 10px 20px; background-color: #28a745; color: white; border-radius: 5px;">Editar</a>
+                <a href="{% url 'noticias:eliminar_noticia' noticia.pk %}" style="text-decoration: none; padding: 10px 20px; background-color: #dc3545; color: white; border-radius: 5px;">Eliminar</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EVENTOS | CREAR</title>
-</head>
-<body>
-    <h1>CREAR EVENTO</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Crear</button>
-    </form>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Crear Evento{% endblock %}
+
+{% block content %}
+    <h1 class="text-4xl font-bold text-center my-8">CREAR NUEVO EVENTO</h1>
+    <div class="max-w-xl mx-auto p-6 bg-white rounded-xl shadow-lg">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="flex justify-between mt-6">
+                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition-colors duration-300">Crear Evento</button>
+                <a href="{% url 'eventos:lista_eventos' %}" class="bg-gray-400 text-white px-6 py-2 rounded-full hover:bg-gray-500 transition-colors duration-300">Cancelar</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOTICIAS | NUEVA</title>
-</head>
-<body>
-    <h1>NUEVA NOTICIA CREADA</h1>
-    <form method="post">
+{% extends "base.html" %}
+
+{% block title %}Crear Nueva Noticia{% endblock %}
+
+{% block content %}
+    <h1>CREAR NOTICIA</h1>
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Crear</button>
     </form>
-</body>
-</html>
+    <a href="{% url 'noticias:lista_noticias' %}" class="btn btn-secondary">Cancelar</a>
+{% endblock %}

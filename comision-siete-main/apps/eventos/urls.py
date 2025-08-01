@@ -1,33 +1,29 @@
+# apps/eventos/urls.py
+
 from django.urls import path
 from .views import (
-    eventos, 
-    EventosView, 
+    lista_eventos,
     detalle_evento,
-    DetalleEventoView,
     crear_evento,
-    CrearEventoView,
     editar_evento,
-    EditarEventoView,
-    eliminar_evento,
-    EliminarEventoView
+    eliminar_evento
 )
 
+app_name = 'eventos'
 
-# localhost:8000/eventos/
 urlpatterns = [
-    path('', eventos, name="todos_los_eventos"),
-    # path('', EventosView.as_view(), name="todos_los_eventos"),
+    # URL principal del app para listar todos los eventos
+    path('', lista_eventos, name="lista_eventos"),
 
-    path('<int:evento_id>/', detalle_evento, name="detalle_evento"),
-    # path('<int:evento_id>/', DetalleEventoView.as_view(), name="detalle_evento"),
+    # URL para ver los detalles de un evento específico
+    path('<int:pk>/', detalle_evento, name="detalle_evento"),
 
+    # URL para crear un nuevo evento
     path('crear/', crear_evento, name="crear_evento"),
-    # path('crear/', CrearEventoView.as_view(), name="crear_evento"),
-    
-    path('editar/<int:evento_id>/', editar_evento, name="editar_evento"),
-    # path('editar/<int:evento_id>/', EditarEventoView.as_view(), name="editar_evento"),
 
-    path('eliminar/<int:evento_id>/', eliminar_evento, name="eliminar_evento")
-    # path('eliminar/<int:evento_id>/', EliminarEventoView.as_view(), name="eliminar_evento")
-    
+    # URL para editar un evento existente
+    path('editar/<int:pk>/', editar_evento, name="editar_evento"),
+
+    # URL para eliminar un evento existente
+    path('eliminar/<int:pk>/', eliminar_evento, name="eliminar_evento"),
 ]

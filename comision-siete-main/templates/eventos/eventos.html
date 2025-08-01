@@ -1,30 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EVENTOS | INICIO</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Lista de Eventos{% endblock %}
+
+{% block content %}
     <hr>
     <h1>TODOS LOS EVENTOS</h1>
     <hr>
-    <br>
-    <br>
-    
-    {% for categoria in categorias %}
-        <a href="?categoria={{categoria.nombre}}">{{categoria.nombre}}</a>
-    {% endfor %}
 
-    <br>
-    <br>
+    <div style="margin-top: 20px; margin-bottom: 20px;">
+        <a href="{% url 'eventos:lista_eventos' %}" style="margin-right: 15px;">Todas las categorías</a>
+        {% for categoria in categorias %}
+            <a href="{% url 'eventos:lista_eventos' %}?categoria={{categoria.nombre}}" style="margin-right: 15px;">{{ categoria.nombre }}</a>
+        {% endfor %}
+    </div>
+
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'eventos:crear_evento' %}" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Crear Evento</a>
+    </div>
 
     {% for evento in eventos %}
         <hr>
-        <h2>{{evento.nombre}}</h2>
-        <p><strong>{{evento.inicio}}</strong> | Organizador por: {{evento.organizador.nombre}}</p>
+        <h2>{{ evento.title }}</h2>
+        <p><strong>Fecha:</strong> {{ evento.date|date:"d F, Y H:i" }} | Organizado por: {{ evento.organizer.username }}</p>
+        <p>{{ evento.description|truncatechars:150 }}</p>
 
-        <a href="/eventos/{{evento.evento_id}}">VER MÁS</a>
+        <a href="{% url 'eventos:detalle_evento' evento.date.year evento.date.month evento.date.day evento.slug %}">VER MÁS</a>
     {% endfor %}
-</body>
-</html>
+{% endblock %}

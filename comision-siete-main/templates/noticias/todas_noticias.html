@@ -1,36 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOTICIAS | INICIO</title>
-</head>
+{% block title %}Todas las Noticias{% endblock %}
 
-<body>
-    <H1>TODAS LAS NOTICIAS DEL PORTAL</H1>
+{% block content %}
+    <hr>
+    <h1>TODAS LAS NOTICIAS</h1>
+    <hr>
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'noticias:crear_noticia' %}" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Crear Noticia</a>
+    </div>
 
-    <form method="get" style="margin-left: 50px;">
-        <input type="text" name="categoria" placeholder="Buscar categoría..." value="{{categoria_seleccionada}}">
-        <button type="submit">Buscar</button>
-    </form>
+    {% if noticias %}
+        {% for noticia in noticias %}
+            <hr>
+            <h2>{{ noticia.titulo }}</h2>
+            <p>{{ noticia.subtitulo }}</p>
+            <p><strong>Autor:</strong> {{ noticia.autor.username }} | <strong>Publicado:</strong> {{ noticia.fecha_publicacion|date:"d F, Y" }}</p>
 
-    <p>
-        <a href="?">Limpiar filtros</a>
-        <a href="?categoria=politica">Política</a>
-        <a href="?categoria=tecnologia">Tecnología</a>
-        <a href="?categoria=deportes">Deportes</a>
-    </p>
-
-    <!-- A mi me lleguen aca todas las noticias de la base de datos -->
-    {% for noticia in noticias %}
-        <h3><strong>{{noticia.titulo}}</strong></h3>
-        <h4>{{noticia.subtitulo}}</h4>
-        <small>Categorias: {{ noticia.categorias.all|join:', ' }}</small>
-        <p>{{noticia.contenido}}</p>
-        <hr>
-    {% endfor %}
-
-</body>
-
-</html>
+            <a href="{% url 'noticias:detalle_noticia' noticia.pk %}">LEER MÁS</a>
+        {% endfor %}
+    {% else %}
+        <p>No hay noticias disponibles.</p>
+    {% endif %}
+{% endblock %}
