@@ -1,4 +1,7 @@
 from django.db import models
+from django.conf import settings
+from django.utils import timezone
+
 
 class Categoria(models.Model):
     categoria_id = models.AutoField(primary_key=True)
@@ -8,6 +11,7 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre
 
+
 class Autor(models.Model):
     autor_id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
@@ -16,17 +20,48 @@ class Autor(models.Model):
     def __str__(self):
         return self.nombre
 
+
 class Noticia(models.Model):
     noticia_id = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=85)
     subtitulo = models.CharField(max_length=150)
     contenido = models.TextField()
-    fecha = models.DateField(auto_now_add=True)#agrega la fecha automaticamente
-    categorias = models.ManyToManyField(Categoria) #Relacion n:m (muchos a muchos)
-    autor = models.ForeignKey(Autor, on_delete=models.CASCADE) #Relación 1:n (uno a muchos)
+    # agrega la fecha automaticamente
+    fecha = models.DateField(auto_now_add=True)
+    categorias = models.ManyToManyField(
+        Categoria)  # Relacion n:m (muchos a muchos)
+    # Relación 1:n (uno a muchos)
+    autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.titulo  
+        return self.titulo
+
+# ----------------------------------------------------------------
+# creado el 5/8 para poder subir imagenes y videos a la noticia
+
+class Imagen(models.Model):
+    imagen_id = models.AutoField(primary_key=True)
+    noticia = models.ForeignKey(
+        Noticia, on_delete=models.CASCADE, related_name='imagenes')
+    imagen = models.ImageField(upload_to='noticias/imagenes/')
+    descripcion = models.CharField(max_length=250, blank=True)
+
+    def __str__(self):
+        return f"Imagen de '{self.noticia.titulo}'"
+
+
+class Video(models.Model):
+    video_id = models.AutoField(primary_key=True)
+    noticia = models.ForeignKey(
+        Noticia, on_delete=models.CASCADE, related_name='videos')
+    url_video = models.URLField(max_length=500)
+    descripcion = models.CharField(max_length=250, blank=True)
+
+    def __str__(self):
+        return f"Video de '{self.noticia.titulo}'"
+
+# -------------------------------------------------------------------
+
 
 # class Persona(models.Model):
 #     id_persona = models.AutoField(primary_key=True)
@@ -37,4 +72,3 @@ class Noticia(models.Model):
 #     id_perfil = models.AutoField(primary_key=True)
 #     biografia = models.TextField()
 #     persona = models.OneToOneField(Persona, on_delete=models.CASCADE)
-
