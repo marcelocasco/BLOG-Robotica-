@@ -14,3 +14,4 @@ class NoticiaAdmin(admin.ModelAdmin):
 admin.site.register(Noticia, NoticiaAdmin)
 admin.site.register(Categoria)
 admin.site.register(Autor)
+

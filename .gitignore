@@ -206,6 +206,7 @@ __marimo__/
 # Ignorar archivos de base de datos SQLite
 *.sqlite3
 db.sqlite3
+db_local.db
 
 
 # Ignorar archivos de caché de VS Code
