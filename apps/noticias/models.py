@@ -36,6 +36,11 @@ class Persona(models.Model):
     def __str__(self):
         return f"{self.nombre} {self.apellido}"
 
+class Perfil(models.Model):
+    id_perfil = models.AutoField(primary_key=True)
+    biografia = models.TextField()
+    persona = models.OneToOneField(Persona, on_delete=models.CASCADE)
+
 
 class Comentario(models.Model):
     usuario = models.ForeignKey(Persona, on_delete=models.CASCADE)
@@ -45,9 +50,4 @@ class Comentario(models.Model):
 
     def __str__(self):
         return f"Comentario de {self.usuario.nombre} {self.usuario.apellido}"
-
-# class Perfil(models.Model):
-#     id_perfil = models.AutoField(primary_key=True)
-#     biografia = models.TextField()
-#     persona = models.OneToOneField(Persona, on_delete=models.CASCADE)
 
