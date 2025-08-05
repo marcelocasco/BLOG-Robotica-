@@ -48,7 +48,7 @@ class AutorAdmin(admin.ModelAdmin):
 
 @admin.register(Comentario)
 class ComentarioAdmin(admin.ModelAdmin):
-    list_display = ('autor', 'noticia', 'fecha')
+    list_display = ('usuario', 'noticia', 'fecha')
 
 
 @admin.register(Persona)
