@@ -37,6 +37,18 @@ def noticia_editar(request, pk):
         form = NoticiaForm(instance=noticia)
     return render(request, 'noticia_form.html', {'form': form})
 
+@login_required
+def eliminar_noticia(request, pk):
+    noticia = get_object_or_404(Noticia, pk=pk)
+    if noticia.autor != request.user:
+        return HttpResponseForbidden("No tenés permiso para eliminar esta noticia")
+    if request.method == 'POST':
+        noticia.delete()
+        return redirect('lista_noticias')
+
+    return render(request, 'noticia_confirmar_eliminar.html', {'noticia': noticia})
+
+
 def lista_noticias(request):
     noticias = Noticia.objects.order_by('-fecha')  # cambiamos a 'fecha'
     return render(request, 'lista_noticias.html', {'noticias': noticias})
@@ -44,17 +56,6 @@ def lista_noticias(request):
 def noticia_detalle(request, pk):
     noticia = get_object_or_404(Noticia, pk=pk)
     return render(request, 'noticia_detalle.html', {'noticia': noticia})
-
-
-@login_required
-def eliminar_noticia(request, pk):
-    noticia = get_object_or_404(Noticia, pk=pk)
-
-    if request.method == 'POST':
-        noticia.delete()
-        return redirect('lista_noticias')
-
-    return render(request, 'noticia_confirmar_eliminar.html', {'noticia': noticia})
 
 
 def registro(request):
