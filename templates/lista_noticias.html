@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Noticias</title>
+</head>
+<body>
+    <h1>Noticias</h1>
+
+    {% if noticias %}
+        <ul>
+            {% for noticia in noticias %}
+                <li>
+                    <h2><a href="{% url 'noticia_detalle' noticia.pk %}">{{ noticia.titulo }}</a></h2>
+                    <p>{{ noticia.contenido|truncatewords:20 }}</p>
+                    <small>Publicado el {{ noticia.fecha }}</small>
+                    <br>
+                    <small>Autor: {{ noticia.autor.username }}</small>
+                    <br>
+                    {% if user.is_authenticated and noticia.autor == user %}
+                        <a href="{% url 'noticia_editar' noticia.pk %}">Editar</a>
+                    {% endif %}
+                    <br>
+                    {% if user.is_authenticated and noticia.autor == user %}
+                    <a href="{% url 'eliminar_noticia' noticia.pk %}">Eliminar</a>
+                    {% endif %}
+                    <br>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay noticias disponibles.</p>
+    {% endif %}
+
+</body>
+</html>
