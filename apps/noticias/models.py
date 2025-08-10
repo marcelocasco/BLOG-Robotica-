@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
-
+from django.contrib.auth.models import User
 
 class Categoria(models.Model):
     categoria_id = models.AutoField(primary_key=True)
@@ -24,7 +24,7 @@ class Autor(models.Model):
 class Noticia(models.Model):
     noticia_id = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=85)
-    subtitulo = models.CharField(max_length=150)
+    subtitulo = models.CharField(max_length=150, default='')
     contenido = models.TextField()
     # agrega la fecha automaticamente
     fecha = models.DateField(auto_now_add=True)
@@ -63,23 +63,15 @@ class Video(models.Model):
 # -------------------------------------------------------------------
 
 
-class Persona(models.Model):
-    id_persona = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=100)
-
-    def __str__(self):
-        return f"{self.nombre} {self.apellido}"
-
 class Perfil(models.Model):
     id_perfil = models.AutoField(primary_key=True)
     biografia = models.TextField()
-    persona = models.OneToOneField(Persona, on_delete=models.CASCADE)
+    persona = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
 class Comentario(models.Model):
-    usuario = models.ForeignKey(Persona, on_delete=models.CASCADE)
-    texto = models.TextField()
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    contenido = models.TextField()
     fecha = models.DateTimeField(auto_now_add=True)
     noticia = models.ForeignKey(Noticia,on_delete=models.CASCADE)
 
