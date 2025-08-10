@@ -1,5 +1,5 @@
 from django import forms
-from .models import Noticia
+from .models import Noticia,Comentario
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -14,3 +14,11 @@ class RegistroUsuarioForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+
+class ComentarioForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ['contenido']
+        widgets = {
+            'contenido': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Escribí tu comentario aquí...'}),
+        }

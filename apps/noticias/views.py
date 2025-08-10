@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from .forms import NoticiaForm, RegistroUsuarioForm
-from .models import Noticia
+from .forms import NoticiaForm, RegistroUsuarioForm,ComentarioForm
+from .models import Noticia,Comentario
 from django.contrib.auth import login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, Http404
+
+
 
 def inicio(request):
     return render(request, 'inicio.html')
@@ -53,9 +55,31 @@ def lista_noticias(request):
     noticias = Noticia.objects.order_by('-fecha')  # cambiamos a 'fecha'
     return render(request, 'lista_noticias.html', {'noticias': noticias})
 
+
 def noticia_detalle(request, pk):
     noticia = get_object_or_404(Noticia, pk=pk)
-    return render(request, 'noticia_detalle.html', {'noticia': noticia})
+    comentarios = noticia.comentarios.order_by('-fecha_creacion')
+
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form = ComentarioForm(request.POST)
+            if form.is_valid():
+                nuevo_comentario = form.save(commit=False)
+                nuevo_comentario.noticia = noticia
+                nuevo_comentario.autor = request.user
+                nuevo_comentario.save()
+                return redirect('noticia_detalle', pk=pk)
+        else:
+            return redirect('login')
+    else:
+        form = ComentarioForm()
+
+    return render(request, 'noticia_detalle.html', {
+        'noticia': noticia,
+        'comentarios': comentarios,
+        'form': form,
+    })
+
 
 
 def registro(request):
@@ -73,4 +97,43 @@ def cerrar_sesion(request):
     logout(request)
     return redirect('inicio')  # Cambia 'inicio' por el nombre de tu vista principal
 
+
+def noticia_detalle(request, pk):
+    noticia = get_object_or_404(Noticia, pk=pk)
+    comentarios = noticia.comentarios.order_by('-fecha_creacion')
+
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form = ComentarioForm(request.POST)
+            if form.is_valid():
+                nuevo_comentario = form.save(commit=False)
+                nuevo_comentario.noticia = noticia
+                nuevo_comentario.autor = request.user
+                nuevo_comentario.save()
+                return redirect('noticia_detalle', pk=pk)
+        else:
+            return redirect('login')
+    else:
+        form = ComentarioForm()
+
+    return render(request, 'noticia_detalle.html', {
+        'noticia': noticia,
+        'comentarios': comentarios,
+        'form': form,
+    })
+
+
+@login_required
+def eliminar_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id)
+
+    # Solo el autor puede eliminar
+    if comentario.autor != request.user:
+        return HttpResponseForbidden("No tienes permiso para eliminar este comentario.")
+
+    if request.method == "POST":
+        comentario.delete()
+        return redirect('noticia_detalle', pk=comentario.noticia.pk)
+
+    return redirect('noticia_detalle', pk=comentario.noticia.pk)
 
