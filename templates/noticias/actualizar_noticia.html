@@ -1,16 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOTICIAS | ACTUALIZAR</title>
+    <title>Blog robótica | Actualizar noticia</title>
+    <link rel="stylesheet" href="/BLOG-Robotica--main/templates/estilos.css">
 </head>
 <body>
-    <h1>NOTICIA ACTUALIZADA</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Actualizar</button>
-    </form>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><a href="{% url 'index' %}">Inicio</a></li>
+                <li><a href="#noticias">Noticias</a></li>
+                <li><a href="#sobre-nosotros">Sobre nosotros</a></li>
+            </ul>
+            <div class="buttons">
+                <a href="#" class="btn">Iniciar sesión</a>
+                <a href="#" class="btn outline">Registrarse</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="forms">
+            <h2>Actualizar noticia</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="login-btn">Actualizar</button>
+            </form>
+            <p class="register-msg">
+                <a href="{% url 'lista_noticias' %}">← Volver a la lista de noticias</a>
+            </p>
+        </div>
+    </main>
+
+    <footer style="background-color: var(--color-fondo-seccion); text-align: center; padding: 20px; margin-top: 40px; color: #ccc;">
+        <p>© 2025 Blog de Robótica - Todos los derechos reservados</p>
+    </footer>
 </body>
 </html>
