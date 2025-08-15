@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog robótica | Nueva noticia</title>
+    <link rel="stylesheet" href="/BLOG-Robotica--main/templates/estilos.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><a href="{% url 'index' %}">Inicio</a></li>
+                <li><a href="#noticias">Noticias</a></li>
+                <li><a href="#sobre-nosotros">Sobre nosotros</a></li>
+            </ul>
+            <div class="buttons">
+                <a href="#" class="btn">Iniciar sesión</a>
+                <a href="#" class="btn outline">Registrarse</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="forms">
+            <h2>Crear nueva noticia</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="login-btn">Crear</button>
+            </form>
+            <p class="register-msg">
+                <a href="{% url 'lista_noticias' %}">← Volver a la lista de noticias</a>
+            </p>
+        </div>
+    </main>
+
+    <footer style="background-color: var(--color-fondo-seccion); text-align: center; padding: 20px; margin-top: 40px; color: #ccc;">
+        <p>© 2025 Blog de Robótica - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>
