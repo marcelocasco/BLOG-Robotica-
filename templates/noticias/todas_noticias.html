@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOTICIAS | INICIO</title>
+</head>
+
+<body>
+    <H1>TODAS LAS NOTICIAS DEL PORTAL</H1>
+
+    <form method="get" style="margin-left: 50px;">
+        <input type="text" name="categoria" placeholder="Buscar categoría..." value="{{categoria_seleccionada}}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <p>
+        <a href="?">Limpiar filtros</a>
+        <a href="?categoria=politica">Política</a>
+        <a href="?categoria=tecnologia">Tecnología</a>
+        <a href="?categoria=deportes">Deportes</a>
+    </p>
+
+    <!-- A mi me lleguen aca todas las noticias de la base de datos -->
+    {% for noticia in noticias %}
+        <h3><strong>{{noticia.titulo}}</strong></h3>
+        <h4>{{noticia.subtitulo}}</h4>
+        <small>Categorias: {{ noticia.categorias.all|join:', ' }}</small>
+        <p>{{noticia.contenido}}</p>
+        <hr>
+    {% endfor %}
+
+</body>
+
+</html>
