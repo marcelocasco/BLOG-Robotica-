@@ -17,6 +17,7 @@ from django import forms
 from .models import Noticia,Comentario
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
 
 class NoticiaForm(forms.ModelForm):
     imagen = forms.ImageField(required=False, label='Imagen de la noticia', widget=forms.ClearableFileInput(attrs={
