@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="{% static 'informatorio.jpg' %}">
+    <title>Blog robótica | Detalle de noticia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-black text-white">
+    <header class="bg-neutral-900 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="{% url 'inicio' %}" class="flex items-center space-x-3">
+                        <img src="{% static 'bot.jpg' %}" alt="Logo ChatBot" class="w-10 h-10 rounded-full border-2 border-cyan-400 shadow-md">
+                        <span class="text-cyan-400 font-bold text-2xl">Blog Robótica</span>
+                    </a>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="{% url 'inicio' %}" class="text-gray-300 hover:text-cyan-400 transition">Inicio</a>
+                    <a href="{% url 'todas_noticias' %}" class="text-gray-300 hover:text-cyan-400 transition">Noticias</a>
+                    <a href="{% url 'sobre_nosotros' %}" class="text-gray-300 hover:text-cyan-400 transition">Sobre nosotros</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        <div class="bg-neutral-900 p-8 rounded-2xl shadow-xl mb-8">
+            <h2 class="text-3xl font-bold text-cyan-400 mb-2 break-words">{{ noticia.titulo }}</h2>
+            <p class="text-gray-400 mb-2"><small>Autor: {{ noticia.autor.nombre }} | {{ noticia.fecha }}</small></p>
+            <p class="text-lg text-gray-300 mb-4 font-semibold break-words">{{ noticia.subtitulo }}</p>
+            {% if noticia.imagenes.all %}
+                {% with imagen_principal=noticia.imagenes.first %}
+                    {% if imagen_principal %}
+                        <img src="{{ imagen_principal.imagen.url }}" alt="Imagen de la noticia" class="w-full h-64 object-cover rounded-lg mb-6 border-2 border-cyan-400">
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+            <div class="overflow-x-auto">
+                <p class="text-white text-lg mb-6 break-words whitespace-pre-line">{{ noticia.contenido }}</p>
+            </div>
+            {% if user.is_authenticated and noticia.autor == user %}
+                <!-- Solo el autor (usuario autenticado) puede eliminar la noticia -->
+                <form method="post" action="{% url 'eliminar_noticia' pk=noticia.pk %}" class="mt-4">
+                    {% csrf_token %}
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition">Eliminar noticia</button>
+                </form>
+            {% endif %}
+        </div>
+        <hr class="my-8 border-cyan-400">
+        <!-- Bloque de comentarios -->
+        <section class="bg-neutral-900 p-8 rounded-2xl shadow-xl">
+            <h3 class="text-2xl font-bold text-cyan-400 mb-6">Comentarios</h3>
+            {% for comentario in comentarios %}
+                <div class="mb-6 p-6 bg-neutral-800 rounded-lg">
+                    <p class="text-gray-300 mb-2"><strong>{{ comentario.usuario.username }}</strong> comentó el {{ comentario.fecha|date:"d/m/Y H:i" }}:</p>
+                    <p class="text-white mb-2">{{ comentario.contenido }}</p>
+                    {% if comentario.usuario == user %}
+                        <form method="post" action="{% url 'eliminar_comentario' comentario.id %}" class="mt-2">
+                            {% csrf_token %}
+                            <button type="submit" class="text-red-400 hover:underline text-xs">Eliminar</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p class="text-gray-400">No hay comentarios aún. ¡Sé el primero en comentar!</p>
+            {% endfor %}
+            {% if user.is_authenticated %}
+                <form method="post" class="mt-8 p-6 bg-neutral-900 rounded-lg">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="id_contenido" class="block text-sm font-medium text-gray-300 mb-2">Contenido:</label>
+                        <textarea name="contenido" id="id_contenido" rows="4" placeholder="Escribí tu comentario aquí..." class="w-full px-4 py-2 rounded-lg bg-neutral-800 border border-neutral-700 focus:ring-2 focus:ring-cyan-400 outline-none text-white placeholder-gray-400 resize-none"></textarea>
+                    </div>
+                    <button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition">Comentar</button>
+                </form>
+            {% else %}
+                <p class="text-gray-400 mt-4">Debes <a href="{% url 'login' %}" class="text-cyan-400 hover:underline">iniciar sesión</a> para comentar.</p>
+            {% endif %}
+        </section>
+        <div class="flex justify-center mt-10">
+            <a href="{% url 'todas_noticias' %}" class="text-cyan-400 hover:underline text-sm flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                Volver a la lista de noticias
+            </a>
+        </div>
+    </main>
+
+    <footer class="bg-neutral-900 text-center py-6 mt-10 text-gray-400">
+        <p>© 2025 Blog de Robótica - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>

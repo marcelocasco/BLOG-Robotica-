@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión - Blog Robótica</title>
+    <link rel="icon" type="image/jpeg" href="{% static 'informatorio.jpg' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white">
+
+    <header class="bg-neutral-900 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="{% url 'inicio' %}" class="flex items-center space-x-3">
+                        <img src="{% static 'bot.jpg' %}" alt="Logo ChatBot" class="w-10 h-10 rounded-full border-2 border-cyan-400 shadow-md">
+                        <span class="text-cyan-400 font-bold text-2xl">Blog Robótica</span>
+                    </a>
+                </div>
+
+                <nav class="hidden md:flex space-x-6">
+                    <a href="{% url 'inicio' %}" class="text-gray-300 hover:text-cyan-400 transition">Inicio</a>
+                    <a href="{% url 'sobre_nosotros' %}" class="text-gray-300 hover:text-cyan-400 transition">Sobre Nosotros</a>
+                    <!-- Si no tienes una vista 'contacto', puedes dejar el enlace vacío o comentarlo -->
+                    <a href="#" class="text-gray-300 hover:text-cyan-400 transition">Contacto</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+        <div class="bg-neutral-900 p-10 rounded-2xl shadow-xl w-full max-w-md">
+            <h2 class="text-2xl font-bold text-center mb-6 text-cyan-400">Iniciar sesión</h2>
+
+            {% if form.errors %}
+                <p class="text-red-400 text-sm mb-4">Usuario o contraseña incorrectos.</p>
+            {% endif %}
+
+            <form method="post" class="space-y-5">
+                {% csrf_token %}
+
+                <div>
+                    <label for="id_username" class="block text-sm font-medium mb-1">Usuario</label>
+                    <input type="text" name="username" id="id_username"
+                           class="w-full px-4 py-2 rounded-lg bg-neutral-800 border border-neutral-700 focus:ring-2 focus:ring-cyan-400 outline-none"
+                           placeholder="Tu usuario" required>
+                </div>
+
+                <div>
+                    <label for="id_password" class="block text-sm font-medium mb-1">Contraseña</label>
+                    <input type="password" name="password" id="id_password"
+                           class="w-full px-4 py-2 rounded-lg bg-neutral-800 border border-neutral-700 focus:ring-2 focus:ring-cyan-400 outline-none"
+                           placeholder="********" required>
+                </div>
+
+
+                <button type="submit"
+                        class="w-full py-2 px-4 bg-cyan-500 hover:bg-cyan-600 transition rounded-lg font-semibold">
+                    Ingresar
+                </button>
+            </form>
+
+            <div class="flex justify-center mt-6">
+                <img src="{% static 'Automated Production Arm.jpg' %}" alt="Automated Production Arm" class="w-40 h-auto rounded-xl shadow-lg">
+            </div>
+
+            <p class="text-center text-sm text-gray-400 mt-6">
+                ¿No tienes una cuenta?
+                <a href="{% url 'registro' %}" class="text-cyan-400 hover:underline">Regístrate</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

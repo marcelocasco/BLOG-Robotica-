@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - Blog Robótica</title>
+    <link rel="icon" type="image/jpeg" href="{% static 'informatorio.jpg' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-black text-white">
+
+    <header class="bg-neutral-900 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="{% url 'inicio' %}" class="flex items-center space-x-3">
+                        <img src="{% static 'bot.jpg' %}" alt="Logo ChatBot" class="w-10 h-10 rounded-full border-2 border-cyan-400 shadow-md">
+                        <span class="text-cyan-400 font-bold text-2xl">Blog Robótica</span>
+                    </a>
+                </div>
+
+                <nav class="hidden md:flex space-x-6">
+                    <a href="{% url 'inicio' %}" class="text-gray-300 hover:text-cyan-400 transition">Inicio</a>
+                    <a href="#" class="text-gray-300 hover:text-cyan-400 transition">Acerca de</a>
+                    <a href="#" class="text-gray-300 hover:text-cyan-400 transition">Contacto</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+        <div class="bg-neutral-900 p-10 rounded-2xl shadow-xl w-full max-w-md">
+            <h2 class="text-2xl font-bold text-center mb-6 text-cyan-400">Crear cuenta</h2>
+
+            <form method="post" class="space-y-5">
+                {% csrf_token %}
+
+                <div>
+                    <label for="id_username" class="block text-sm font-medium mb-1">Usuario</label>
+                    <input type="text" name="username" id="id_username"
+                        class="w-full px-4 py-2 rounded-lg bg-neutral-800 border border-neutral-700 focus:ring-2 focus:ring-cyan-400 outline-none"
+                        placeholder="Tu usuario" required>
+                </div>
+
+                <div>
+                    <label for="id_email" class="block text-sm font-medium mb-1">Email</label>
+                    <input type="email" name="email" id="id_email"
+                        class="w-full px-4 py-2 rounded-lg bg-neutral-800 border border-neutral-700 focus:ring-2 focus:ring-cyan-400 outline-none"
+                        placeholder="correo@ejemplo.com" required>
+                </div>
+
+                <div>
+                    <label for="id_password1" class="block text-sm font-medium mb-1">Contraseña</label>
+                    <input type="password" name="password1" id="id_password1"
+                        class="w-full px-4 py-2 rounded-lg bg-neutral-800 border border-neutral-700 focus:ring-2 focus:ring-cyan-400 outline-none"
+                        placeholder="********" required>
+                </div>
+
+                <div>
+                    <label for="id_password2" class="block text-sm font-medium mb-1">Confirmar contraseña</label>
+                    <input type="password" name="password2" id="id_password2"
+                        class="w-full px-4 py-2 rounded-lg bg-neutral-800 border border-neutral-700 focus:ring-2 focus:ring-cyan-400 outline-none"
+                        placeholder="********" required>
+                </div>
+
+                <button type="submit"
+                    class="w-full py-2 px-4 bg-cyan-500 hover:bg-cyan-600 transition rounded-lg font-semibold">
+                    Registrarse
+                </button>
+            </form>
+
+            <p class="text-center text-sm text-gray-400 mt-6">
+                ¿Ya tienes una cuenta?
+                <a href="{% url 'login' %}" class="text-cyan-400 hover:underline">Inicia sesión</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

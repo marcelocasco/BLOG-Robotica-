@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Noticia - Blog Robótica</title>
+    <link rel="icon" type="image/jpeg" href="{% static 'informatorio.jpg' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white">
+    <header class="bg-neutral-900 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="{% url 'inicio' %}" class="flex items-center space-x-3">
+                        <img src="{% static 'bot.jpg' %}" alt="Logo ChatBot" class="w-10 h-10 rounded-full border-2 border-cyan-400 shadow-md">
+                        <span class="text-cyan-400 font-bold text-2xl">Blog Robótica</span>
+                    </a>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="{% url 'inicio' %}" class="text-gray-300 hover:text-cyan-400 transition">Inicio</a>
+                    <a href="{% url 'todas_noticias' %}" class="text-gray-300 hover:text-cyan-400 transition">Noticias</a>
+                    <a href="{% url 'noticia_nueva' %}" class="text-cyan-400 font-bold">Crear Noticia</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+        <div class="bg-neutral-900 p-10 rounded-2xl shadow-xl w-full max-w-lg">
+            <h2 class="text-3xl font-bold text-center mb-6 text-cyan-400">Crear Nueva Noticia</h2>
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+                <div class="space-y-4">
+                    {{ form.titulo.label_tag }}
+                    {{ form.titulo }}
+                    {{ form.contenido.label_tag }}
+                    {{ form.contenido }}
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Categorías:</label>
+                        <div class="flex flex-wrap gap-4">
+                            {% for checkbox in form.categorias %}
+                                <label class="flex items-center gap-2 bg-neutral-800 px-3 py-2 rounded-lg cursor-pointer">
+                                    {{ checkbox.tag }}
+                                    <span class="text-white">{{ checkbox.choice_label }}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {{ form.imagen.label_tag }}
+                    {{ form.imagen }}
+                </div>
+                <button type="submit" class="w-full py-2 px-4 bg-cyan-500 hover:bg-cyan-600 transition rounded-lg font-semibold shadow-md">Publicar</button>
+            </form>
+            <div class="flex justify-center mt-8">
+                <a href="{% url 'todas_noticias' %}" class="text-cyan-400 hover:underline text-sm flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                    Volver a la lista de noticias
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-neutral-900 text-center py-6 mt-10 text-gray-400">
+        <p>© 2025 Blog de Robótica - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>

@@ -1,36 +1,134 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOTICIAS | INICIO</title>
+    <link rel="icon" type="image/jpeg" href="{% static 'informatorio.jpg' %}">
+    <title>TODAS LAS NOTICIAS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body>
-    <H1>TODAS LAS NOTICIAS DEL PORTAL</H1>
+<body class="bg-black text-white font-sans">
 
-    <form method="get" style="margin-left: 50px;">
-        <input type="text" name="categoria" placeholder="Buscar categoría..." value="{{categoria_seleccionada}}">
-        <button type="submit">Buscar</button>
-    </form>
+    <header class="bg-neutral-900 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="{% url 'inicio' %}" class="flex items-center space-x-3">
+                        <img src="{% static 'bot.jpg' %}" alt="Logo ChatBot" class="w-10 h-10 rounded-full border-2 border-cyan-400 shadow-md">
+                        <span class="text-cyan-400 font-bold text-2xl">Blog Robotica</span>
+                    </a>
+                </div>
+                <!-- Menú hamburguesa para móviles -->
+                <button id="menu-toggle" class="md:hidden text-cyan-400 text-2xl focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav id="main-nav" class="hidden md:flex space-x-6 items-center">
+                    <a href="{% url 'todas_noticias' %}" class="text-gray-300 hover:text-cyan-400 transition">Noticias</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'noticia_nueva' %}" class="text-gray-300 hover:text-cyan-400 transition">Crear Noticia</a>
+                        <a href="{% url 'perfil_usuario' %}" class="flex items-center space-x-2">
+                            {% with user_perfil=user.perfil %}
+                                {% if user_perfil.foto_perfil %}
+                                    <img src="{{ user_perfil.foto_perfil.url }}" alt="Foto de perfil" class="w-8 h-8 rounded-full object-cover border-2 border-cyan-400">
+                                {% else %}
+                                    <span class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-cyan-400 text-xl">&#128100;</span>
+                                {% endif %}
+                            {% endwith %}
+                        </a>
+                        <a href="{% url 'logout' %}" class="text-gray-300 hover:text-red-400 transition">Cerrar Sesión</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="text-gray-300 hover:text-cyan-400 transition">Iniciar Sesión</a>
+                        <a href="{% url 'registro' %}" class="text-gray-300 hover:text-cyan-400 transition">Regístrate</a>
+                    {% endif %}
+                </nav>
+            </div>
+            <!-- Menú móvil -->
+            <nav id="mobile-nav" class="md:hidden hidden flex-col space-y-4 mt-2">
+                <a href="{% url 'todas_noticias' %}" class="block px-4 py-2 rounded-lg text-gray-300 hover:bg-cyan-400 hover:text-black transition font-semibold">Noticias</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'noticia_nueva' %}" class="block px-4 py-2 rounded-lg text-gray-300 hover:bg-cyan-400 hover:text-black transition font-semibold">Crear Noticia</a>
+                    <a href="{% url 'perfil_usuario' %}" class="block px-4 py-2 rounded-lg text-gray-300 hover:bg-cyan-400 hover:text-black transition font-semibold">Perfil</a>
+                    <a href="{% url 'logout' %}" class="block px-4 py-2 rounded-lg text-gray-300 hover:bg-red-400 hover:text-black transition font-semibold">Cerrar Sesión</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="block px-4 py-2 rounded-lg text-gray-300 hover:bg-cyan-400 hover:text-black transition font-semibold">Iniciar Sesión</a>
+                    <a href="{% url 'registro' %}" class="block px-4 py-2 rounded-lg text-gray-300 hover:bg-cyan-400 hover:text-black transition font-semibold">Regístrate</a>
+                {% endif %}
+            </nav>
+        </div>
+        <script>
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileNav = document.getElementById('mobile-nav');
+            menuToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('hidden');
+            });
+        </script>
+    </header>
 
-    <p>
-        <a href="?">Limpiar filtros</a>
-        <a href="?categoria=politica">Política</a>
-        <a href="?categoria=tecnologia">Tecnología</a>
-        <a href="?categoria=deportes">Deportes</a>
-    </p>
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold text-cyan-400 mb-2">Todas las Noticias del Portal</h1>
+            <p class="text-gray-400 text-lg">Explora los últimos eventos en el mundo de la robótica y la tecnología.</p>
+        </div>
 
-    <!-- A mi me lleguen aca todas las noticias de la base de datos -->
-    {% for noticia in noticias %}
-        <h3><strong>{{noticia.titulo}}</strong></h3>
-        <h4>{{noticia.subtitulo}}</h4>
-        <small>Categorias: {{ noticia.categorias.all|join:', ' }}</small>
-        <p>{{noticia.contenido}}</p>
-        <hr>
-    {% endfor %}
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 bg-neutral-900 p-6 rounded-lg shadow-inner">
+            <form method="get" class="w-full md:w-1/2 flex items-center space-x-2 mb-4 md:mb-0">
+                <input type="text" name="categoria" placeholder="Buscar por categoría..." value="{{ categoria_seleccionada|default:'' }}"
+                        class="flex-grow px-4 py-2 rounded-lg bg-neutral-800 border border-neutral-700 focus:ring-2 focus:ring-cyan-400 outline-none text-white placeholder-gray-500">
+                <button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded-lg transition">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            <div class="flex flex-wrap justify-center md:justify-end space-x-2 md:space-x-4">
+                <a href="{% url 'todas_noticias' %}" class="text-gray-300 hover:text-cyan-400 text-sm transition font-medium">Limpiar filtros</a>
+                <a href="{% url 'todas_noticias' %}?categoria=politica" class="text-gray-300 hover:text-cyan-400 text-sm transition font-medium">Política</a>
+                <a href="{% url 'todas_noticias' %}?categoria=tecnologia" class="text-gray-300 hover:text-cyan-400 text-sm transition font-medium">Tecnología</a>
+                <a href="{% url 'todas_noticias' %}?categoria=deportes" class="text-gray-300 hover:text-cyan-400 text-sm transition font-medium">Deportes</a>
+            </div>
+        </div>
 
+        <div class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {% for noticia in noticias %}
+            <article class="bg-neutral-900 p-6 rounded-2xl shadow-xl hover:shadow-cyan-500/20 transition-shadow duration-300 ease-in-out">
+                <!-- Mostramos la imagen principal de la noticia si existe -->
+                {% comment %}
+                    <!-- Recorremos las imágenes asociadas a la noticia y mostramos la primera (principal).
+                    Si no hay imagen, no se muestra nada. -->
+                {% endcomment %}
+                {% if noticia.imagenes.all %}
+                    {% with imagen_principal=noticia.imagenes.first %}
+                        {% if imagen_principal %}
+                            <img src="{{ imagen_principal.imagen.url }}" alt="Imagen de la noticia" class="w-full h-48 object-cover rounded-lg mb-4 border-2 border-cyan-400">
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+                <a href="{% url 'noticia_detalle' pk=noticia.pk %}">
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">{{ noticia.titulo }}</h3>
+                    <h4 class="text-lg text-gray-300 mb-2">{{ noticia.subtitulo }}</h4>
+                    <p class="text-sm text-gray-500 italic mb-4">
+                        Por: {{ noticia.autor.username }} |
+                        <small>Publicado: {{ noticia.fecha|date:"F j, Y" }}</small>
+                    </p>
+                    <p class="text-gray-400 mb-4 line-clamp-3">{{ noticia.contenido|truncatechars:150 }}</p>
+                    <div class="flex flex-wrap items-center text-xs text-gray-400 space-x-2">
+                        {% for categoria in noticia.categorias.all %}
+                            <span class="bg-neutral-800 rounded-full px-3 py-1 font-semibold">{{ categoria.nombre }}</span>
+                        {% endfor %}
+                    </div>
+                </a>
+            </article>
+            {% empty %}
+            <div class="col-span-full flex flex-col items-center justify-center py-16">
+                <i class="fas fa-info-circle text-cyan-400 text-5xl mb-4"></i>
+                <p class="text-gray-400 text-lg font-semibold mb-2">No se encontraron noticias en esta categoría.</p>
+                <p class="text-gray-500">¡Sé el primero en publicar una noticia!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
 </body>
 
 </html>

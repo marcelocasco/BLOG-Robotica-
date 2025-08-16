@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="{% static 'informatorio.jpg' %}">
+
+    <title>Perfil de Usuario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white">
+    <header class="bg-neutral-900 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="{% url 'inicio' %}" class="flex items-center space-x-3">
+                        <img src="{% static 'bot.jpg' %}" alt="Logo ChatBot" class="w-10 h-10 rounded-full border-2 border-cyan-400 shadow-md">
+                        <span class="text-cyan-400 font-bold text-2xl">Blog Robótica</span>
+                    </a>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="{% url 'inicio' %}" class="text-gray-300 hover:text-cyan-400 transition">Inicio</a>
+                    <a href="{% url 'todas_noticias' %}" class="text-gray-300 hover:text-cyan-400 transition">Noticias</a>
+                    <a href="{% url 'perfil_usuario' %}" class="text-cyan-400 font-bold">Perfil</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+        <div class="bg-neutral-900 p-10 rounded-2xl shadow-xl w-full max-w-lg">
+            <h2 class="text-2xl font-bold text-center mb-6 text-cyan-400">Perfil de Usuario</h2>
+            <div class="flex flex-col items-center space-y-4 mb-8">
+                {% if perfil.foto_perfil %}
+                    <img src="{{ perfil.foto_perfil.url }}" alt="Foto de perfil" class="w-24 h-24 rounded-full object-cover border-4 border-cyan-400 mb-2">
+                {% else %}
+                    <div class="w-24 h-24 rounded-full bg-gray-700 flex items-center justify-center text-cyan-400 mb-2">
+                        <span class="text-3xl">&#128100;</span>
+                    </div>
+                {% endif %}
+                <div>
+                    <span class="font-semibold text-gray-300">Usuario:</span>
+                    <span class="text-white">{{ usuario.username }}</span>
+                </div>
+                <div>
+                    <span class="font-semibold text-gray-300">Email:</span>
+                    <span class="text-white">{{ usuario.email }}</span>
+                </div>
+            </div>
+            <form method="post" enctype="multipart/form-data" class="space-y-5">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="w-full py-2 px-4 bg-cyan-500 hover:bg-cyan-600 transition rounded-lg font-semibold">Guardar cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-neutral-900 text-center py-6 mt-10 text-gray-400">
+        <p>© 2025 Blog de Robótica - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>
