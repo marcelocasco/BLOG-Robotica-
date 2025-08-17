@@ -140,10 +140,21 @@ def lista_noticias(request):
     """
     Muestra una lista de todas las noticias.
     """
+    import unicodedata
     categoria_nombre = request.GET.get('categoria')
     if categoria_nombre:
-        noticias = Noticia.objects.filter(
-            categorias__nombre__iexact=categoria_nombre).order_by('-fecha')
+        # Normaliza el texto de búsqueda: minúsculas y sin tildes
+        def normalizar(texto):
+            if texto is None:
+                return ''
+            texto = texto.lower()
+            texto = unicodedata.normalize('NFKD', texto)
+            texto = ''.join([c for c in texto if not unicodedata.combining(c)])
+            return texto
+
+        categoria_normalizada = normalizar(categoria_nombre)
+        # Filtra todas las noticias y luego por categoría normalizada
+        noticias = [n for n in Noticia.objects.order_by('-fecha') if any(normalizar(cat.nombre) == categoria_normalizada for cat in n.categorias.all())]
     else:
         noticias = Noticia.objects.order_by('-fecha')
 
