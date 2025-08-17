@@ -1,11 +1,3 @@
-# Configura la URL de login para las redirecciones automáticas de Django
-LOGIN_URL = '/login/'  # Ahora Django redirige a /login/ en vez de /accounts/login/
-
-from pathlib import Path
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 """
 Django settings for blog project.
 
@@ -19,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.noticias', 
+    'apps.noticias',
 ]
 
 MIDDLEWARE = [
@@ -97,13 +90,13 @@ AUTH_PASSWORD_VALIDATORS = [
     #      'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     # },
     #  {
-    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    #      'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     # },
     # {
     #      'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     # },
     # {
-    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    #      'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     # },
 ]
 
@@ -127,10 +120,16 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
+# Configuración para archivos multimedia subidos por el usuario
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Después del login, redirige acá
-LOGIN_REDIRECT_URL = 'todas_noticias'  # o el nombre de la URL que quieras
+LOGIN_REDIRECT_URL = 'todas_noticias'
+# Configura la URL de login para las redirecciones automáticas de Django
+LOGIN_URL = '/login/'

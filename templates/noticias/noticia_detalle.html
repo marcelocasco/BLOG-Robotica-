@@ -31,20 +31,31 @@
     <main class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
         <div class="bg-neutral-900 p-8 rounded-2xl shadow-xl mb-8">
             <h2 class="text-3xl font-bold text-cyan-400 mb-2 break-words">{{ noticia.titulo }}</h2>
-            <p class="text-gray-400 mb-2"><small>Autor: {{ noticia.autor.nombre }} | {{ noticia.fecha }}</small></p>
+            <p class="text-gray-400 mb-2"><small>Autor: {{ noticia.autor.username }} | {{ noticia.fecha }}</small></p>
             <p class="text-lg text-gray-300 mb-4 font-semibold break-words">{{ noticia.subtitulo }}</p>
-            {% if noticia.imagenes.all %}
-                {% with imagen_principal=noticia.imagenes.first %}
-                    {% if imagen_principal %}
-                        <img src="{{ imagen_principal.imagen.url }}" alt="Imagen de la noticia" class="w-full h-64 object-cover rounded-lg mb-6 border-2 border-cyan-400">
-                    {% endif %}
-                {% endwith %}
-            {% endif %}
+            {% for imagen in noticia.imagen_set.all %}
+                <img src="{{ imagen.imagen.url }}" alt="{{ imagen.descripcion }}" class="w-full h-auto object-cover rounded-lg mb-6 border-2 border-cyan-400">
+            {% endfor %}
+
+            {% for video in noticia.videos.all %}
+                {% if video.archivo_video %}
+                    <video controls class="w-full h-auto mt-4 rounded-lg">
+                        <source src="{{ video.archivo_video.url }}" type="video/mp4">
+                        Tu navegador no soporta el video.
+                    </video>
+                {% elif video.url_video %}
+                    <div class="aspect-w-16 aspect-h-9 w-full h-auto mt-4">
+                        <iframe width="100%" height="100%"
+                                src="{{ video.url_video }}"
+                                frameborder="0" allowfullscreen></iframe>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
             <div class="overflow-x-auto">
                 <p class="text-white text-lg mb-6 break-words whitespace-pre-line">{{ noticia.contenido }}</p>
             </div>
             {% if user.is_authenticated and noticia.autor == user %}
-                <!-- Solo el autor (usuario autenticado) puede eliminar la noticia -->
                 <form method="post" action="{% url 'eliminar_noticia' pk=noticia.pk %}" class="mt-4">
                     {% csrf_token %}
                     <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition">Eliminar noticia</button>
@@ -52,7 +63,6 @@
             {% endif %}
         </div>
         <hr class="my-8 border-cyan-400">
-        <!-- Bloque de comentarios -->
         <section class="bg-neutral-900 p-8 rounded-2xl shadow-xl">
             <h3 class="text-2xl font-bold text-cyan-400 mb-6">Comentarios</h3>
             {% for comentario in comentarios %}

@@ -1,13 +1,9 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
-# Esta línea agrega rutas para servir archivos de medios (imágenes, etc.) en modo desarrollo.
-# Django va a usar estas rutas para mostrar los archivos subidos en MEDIA_ROOT cuando este DEBUG=True.
-urlpatterns = [
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+# Define la lista de URLs de tu aplicación
 urlpatterns = [
     path('', views.inicio, name='inicio'),
     path('nueva/', views.noticia_nueva, name='noticia_nueva'),
@@ -21,8 +17,11 @@ urlpatterns = [
     path('comentario/<int:comentario_id>/eliminar/',
          views.eliminar_comentario, name='eliminar_comentario'),
     path('perfil/', views.perfil_usuario, name='perfil_usuario'),
-    # Ruta para la página Sobre Nosotros
     path('sobre-nosotros/', views.sobre_nosotros, name='sobre_nosotros'),
-
-
 ]
+
+# Añade la configuración para servir los archivos MEDIA
+# Esta parte es crucial y solo se aplica cuando DEBUG = True
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

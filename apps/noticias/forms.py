@@ -70,9 +70,16 @@ class ImagenForm(forms.ModelForm):
 
 
 class VideoForm(forms.ModelForm):
+
+    class Meta:
+        model = Video
+        fields = ['url_video', 'archivo_video', 'descripcion']
+
+        # el codigo comentado daria obligatoriedad si es que si o si debe subir un video
+    '''
     def clean(self):
-        cleaned_data = super().clean()
-        url_video = cleaned_data.get('url_video')
+       cleaned_data = super().clean()
+       url_video = cleaned_data.get('url_video')
         archivo_video = cleaned_data.get('archivo_video')
 
         if not url_video and not archivo_video:
@@ -82,7 +89,7 @@ class VideoForm(forms.ModelForm):
         if url_video and archivo_video:
             raise forms.ValidationError(
                 "No puedes proporcionar una URL y subir un archivo de video al mismo tiempo.")
-
+'''
     class Meta:
         model = Video
         fields = ['url_video', 'archivo_video', 'descripcion']
