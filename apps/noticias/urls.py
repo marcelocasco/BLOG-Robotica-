@@ -16,8 +16,13 @@ urlpatterns = [
     path('editar/<int:pk>/', views.noticia_editar, name='noticia_editar'),
     path('detalle/<int:pk>/', views.noticia_detalle, name='noticia_detalle'),
     path('logout/', views.cerrar_sesion, name='logout'),
-    path('noticia/<int:pk>/eliminar/', views.eliminar_noticia, name='eliminar_noticia'),
-    path('comentario/<int:comentario_id>/eliminar/', views.eliminar_comentario, name='eliminar_comentario'),
+    path('noticia/<int:pk>/eliminar/',
+         views.eliminar_noticia, name='eliminar_noticia'),
+    path('comentario/<int:comentario_id>/eliminar/',
+         views.eliminar_comentario, name='eliminar_comentario'),
     path('perfil/', views.perfil_usuario, name='perfil_usuario'),
-    path('sobre-nosotros/', views.sobre_nosotros, name='sobre_nosotros'),  # Ruta para la página Sobre Nosotros
+    # Ruta para la página Sobre Nosotros
+    path('sobre-nosotros/', views.sobre_nosotros, name='sobre_nosotros'),
+
+
 ]
