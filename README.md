@@ -4,7 +4,8 @@
 
 ## Etapa 2: Desarrollo Web
 
-### Proyecto Final - Desarrollo Web con Django - Grupo N°4
+### Proyecto Final - Desarrollo Web con Django - Grupo N°6
+
 
 #### Un proyecto de página web diseñada para ver noticias sobre robótica.
 
