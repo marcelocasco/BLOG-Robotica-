@@ -41,7 +41,6 @@ def perfil_usuario(request):
     })
 
 
-@login_required
 def inicio(request):
     """
     Vista para la página de inicio, muestra las últimas noticias.
